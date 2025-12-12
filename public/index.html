@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Hunter Arena | CTF</title>
+    <style>
+        /* تصميم الهاكرز (Matrix Style) */
+        
+         :root {
+            --bg: #050a14;
+            --neon: #00ff41;
+            --dim: #008f11;
+            --text: #e0e0e0;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid var(--dim);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+        
+        h1 {
+            color: var(--neon);
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px var(--dim);
+            margin-bottom: 10px;
+        }
+        
+        .level-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            margin: 20px 0;
+            padding: 20px;
+            text-align: left;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        
+        .level-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--neon);
+            margin-bottom: 10px;
+        }
+        
+        input {
+            background: #111;
+            border: 1px solid #444;
+            color: var(--neon);
+            padding: 8px;
+            width: 70%;
+            font-family: inherit;
+            outline: none;
+        }
+        
+        button {
+            background: var(--neon);
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .status {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        .hint {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .locked {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+        /* هذا التعليق يحتوي على الفلاج الأول - لا تمسحه! */
+        /* Flag 1: CTF{inspector_gadget} */
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🚩 CYBER ARENA</h1>
+        <p>استخدم أدواتك لحل الألغاز والوصول للنهاية.</p>
+        <h3 id="score">Score: 0 / 3</h3>
+
+        <div class="level-box" id="lvl1">
+            <div class="level-title">Level 1: Source Code</div>
+            <p>المطور نسي الفلاج مكتوب كـ "تعليق" في الكود.. طلعه!</p>
+            <input type="text" id="ans1" placeholder="CTF{...}">
+            <button onclick="check(1)">Submit</button>
+            <span id="st1" class="status"></span>
+            <div class="hint">💡 Hint: Inspect Element (F12)</div>
+        </div>
+
+        <div class="level-box locked" id="lvl2">
+            <div class="level-title">Level 2: Base64</div>
+            <p>فك الشفرة دي: <span style="color:#f59e0b">Q1RGe2Jhc2U2NF9raW5nfQ==</span></p>
+            <input type="text" id="ans2" placeholder="CTF{...}">
+            <button onclick="check(2)">Submit</button>
+            <span id="st2" class="status"></span>
+            <div class="hint">💡 Hint: استخدم أداة Base64 Decoder</div>
+        </div>
+
+        <div class="level-box locked" id="lvl3">
+            <div class="level-title">Level 3: ROT13</div>
+            <p>فك الشفرة دي: <span style="color:#ec4899">PGS{ebg13_vf_rnfl}</span></p>
+            <input type="text" id="ans3" placeholder="CTF{...}">
+            <button onclick="check(3)">Submit</button>
+            <span id="st3" class="status"></span>
+            <div class="hint">💡 Hint: استخدم أداة ROT13 Cipher</div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        const flags = {
+            1: "CTF{inspector_gadget}",
+            2: "CTF{base64_king}", // Q1RGe2Jhc2U2NF9raW5nfQ==
+            3: "CTF{rot13_is_easy}" // PGS{ebg13_vf_rnfl}
+        };
+
+        function check(lvl) {
+            const userAns = document.getElementById('ans' + lvl).value.trim();
+            const status = document.getElementById('st' + lvl);
+
+            if (userAns === flags[lvl]) {
+                status.innerText = "✅ Correct!";
+                status.style.color = "#00ff41";
+                document.getElementById('ans' + lvl).disabled = true;
+
+                if (lvl < 3) document.getElementById('lvl' + (lvl + 1)).classList.remove('locked');
+
+                if (!status.classList.contains('done')) {
+                    score++;
+                    document.getElementById('score').innerText = `Score: ${score} / 3`;
+                    status.classList.add('done');
+                }
+                if (score === 3) alert("🎉 Congratulations Hacker!");
+            } else {
+                status.innerText = "❌ Wrong!";
+                status.style.color = "red";
+            }
+        }
+    </script>
+</body>
+
+</html>
